@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <!-- 轮播图 -->
+    <!-- 幻灯片 -->
+    <!-- interval: 间隔时间
+    arrow：出现箭头-->
     <el-carousel :interval="5000" arrow="always">
-      <el-carousel-item v-for="(item,index) in banners" :key="index">
+      <el-carousel-item v-for="(item, index) in banners" :key="index">
         <div
           class="banner-image"
           :style="`
@@ -13,23 +15,24 @@
       </el-carousel-item>
     </el-carousel>
 
-    <!-- 搜索框 -->
+    <!-- 搜索框， -->
     <div class="banner-content">
       <div class="search-bar">
-        <!-- TAB栏 -->
+        <!-- tab栏 -->
         <el-row type="flex" class="search-tab">
           <span
-            v-for="(item,index) in options"
+            v-for="(item, index) in options"
             :key="index"
-            :class="{active: current==index}"
+            :class="{ active: current == index  }"
             @click="handleClick(index)"
           >
-            <i>{{item.title}}</i>
+            <i>{{ item.title }}</i>
           </span>
         </el-row>
+
         <!-- 输入框 -->
         <el-row type="flex" align="middle" class="search-input">
-          <input :placeholder="options[current].placeholder" />
+          <input :placeholder=" options[current].placeholder " />
           <i class="el-icon-search"></i>
         </el-row>
       </div>

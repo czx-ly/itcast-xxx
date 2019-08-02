@@ -4,7 +4,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    title: "闲云旅游网", // 修改title
+    title: "世界上最大的旅游网站 - 闲云旅游",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -14,7 +14,14 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        type: "text/css",
+        href: "//at.alicdn.com/t/font_1168872_ehvuah8v57g.css"
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -23,11 +30,14 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["element-ui/lib/theme-chalk/index.css"],
+  css: ["element-ui/lib/theme-chalk/index.css", "assets/main.css"],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/element-ui"],
+  plugins: [
+    "@/plugins/element-ui",
+    { src: "~/plugins/localStorage.js", ssr: false }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
