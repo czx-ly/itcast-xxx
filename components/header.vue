@@ -20,11 +20,11 @@
           <nuxt-link to="/user/login">登录注册</nuxt-link>
         </div>
         <!-- 登录过后 -->
-        <div v-else>
+        <div>
           <el-dropdown>
             <span class="el-dropdown-link">
               <img src="http://157.122.54.189:9095/assets/images/avatar.jpg" alt />
-              {{$store.state.user.userInfo.user.nickname}}
+              {{$store.state.user.userInfo.nickname}}
               <i
                 class="el-icon-arrow-downel-icon--right"
               ></i>

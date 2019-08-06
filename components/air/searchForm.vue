@@ -200,6 +200,16 @@ export default {
         path: "/air/flights",
         query: this.form
       });
+      //获取本地（VueX） 的数据
+      const arr = [...this.$store.state.air.history];
+      //新的记录添加到第一个
+      arr.unshift(this.form)
+      //如果长度大于5，只保留5位数
+      if(arr.length > 5 ){
+        arr.length = 5;
+      }
+      //调用vuex 的方法保留数据
+      this.$store.commit("air/setHistory",arr)
     }
   },
   mounted() {}

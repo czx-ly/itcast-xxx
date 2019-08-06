@@ -14,7 +14,7 @@
               <span>{{data.org_airport_name}} T1</span>
             </el-col>
             <el-col :span="8" class="flight-time">
-              <span>{{ranKTime}}</span>
+              <span>{{rankTime}}</span>
             </el-col>
             <el-col :span="8" class="flight-airport">
               <strong>{{data.arr_time}}</strong>
@@ -47,8 +47,12 @@
             </el-col>
             <el-col :span="5" class="price">￥{{item.org_settle_price}}</el-col>
             <el-col :span="3" class="choose-button">
-              <el-button type="warning" size="mini">选定</el-button>
-              <p>剩余： {{item.discount}}</p>
+              <el-button
+                type="warning"
+                size="mini"
+                @click="handleToLink( data.id,  item.seat_xid)"
+              >选定</el-button>
+              <p>剩余：{{ item.discount }}</p>
             </el-col>
           </el-row>
         </el-col>
@@ -95,6 +99,18 @@ export default {
       const min = dis % 60;
 
       return `${hours}小时${min}分钟`;
+    }
+  },
+  methods: {
+    //跳转单页面
+    handleToLink(id, seat_xid) {
+      this.$router.push({
+        path: "/air/order",
+        query: {
+          id,
+          seat_xid
+        }
+      });
     }
   }
 };

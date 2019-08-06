@@ -4,7 +4,7 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <div></div>
+        <FlightsFilters :data="cacheFlightsData" @getDataList="getDataList" />
 
         <!-- 航班头部布局 -->
         <FlightsListHead />
@@ -35,6 +35,7 @@
       <!-- 侧边栏 -->
       <div class="aside">
         <!-- 侧边栏组件 -->
+        <FlightsAside />
       </div>
     </el-row>
   </section>
@@ -42,14 +43,23 @@
 
 <script>
 import FlightsListHead from "@/components/air/flightsListHead.vue";
-
 import FlightsItem from "@/components/air/flightsItem.vue";
+import FlightsFilters from "@/components/air/FlightsFilters.vue";
+import FlightsAside from "@/components/air/flightsAside.vue";
+
 export default {
   data() {
     return {
       // 后台返回的大的数据列表
-      flightsData: {},
-
+      flightsData: {
+        info: {},
+        options: {}
+      },
+      //缓存的数据
+      cacheFlightsData: {
+        info: {},
+        options: {}
+      },
       // 保存当前显示的列表数据
       dataList: [],
 
@@ -64,9 +74,18 @@ export default {
 
   components: {
     FlightsListHead,
-    FlightsItem
+    FlightsItem,
+    FlightsFilters,
+    FlightsAside
   },
-
+  //watch 是监听属性，可以监听实例下所有的属性变化，
+  watch: {
+    //监听路由信息的变化
+    $route() {
+      this.pageIndex = 1;
+      this.getData();
+    }
+  },
   methods: {
     // 修改分页条数时候触发
     handleSizeChange(value) {
@@ -86,7 +105,13 @@ export default {
     },
 
     // 获取分页的数据
-    getDataList() {
+    getDataList(arr) {
+      //过滤组件调用时候返回的过滤的数据
+      if (arr) {
+        //替换列表的数据
+        this.flightsData.flights = arr;
+        this.total = arr.length;
+      }
       // 修改dataList的数据 //0 | 2 //2 | 4
       this.dataList = this.flightsData.flights.slice(
         (this.pageIndex - 1) * this.pageSize,
@@ -94,7 +119,6 @@ export default {
       );
     }
   },
-
   mounted() {
     // console.log(this.$route.query)
 
@@ -104,8 +128,13 @@ export default {
       method: "GET",
       params: this.$route.query
     }).then(res => {
+      console.log(999889);
+      console.log(res);
       // 保存总的大数据
       this.flightsData = res.data;
+
+      //缓存数据一旦赋值不能再修改了
+      this.cacheFlightsData = { ...res.data };
 
       // 总条数
       this.total = this.flightsData.flights.length;
@@ -114,6 +143,9 @@ export default {
       this.dataList = this.flightsData.flights.slice(0, 2);
     });
   }
+  // mounted() {
+  //   this.getData();
+  // }
 };
 </script>
 
